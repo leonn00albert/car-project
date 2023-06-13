@@ -17,7 +17,7 @@ class Day
                     return ["name" => $selected, "available" => false];
                 }
                 return ["name" => $slot["name"], "available" => true];
-            }, readFromSlotsJSON());
+            }, readFromSlotsMYSQL());
 
             return $arr;
         } catch (Exception $e) {
