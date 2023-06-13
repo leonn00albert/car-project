@@ -13,7 +13,7 @@ class Slots extends Action
             "name" => trim(htmlspecialchars($_POST["name"])),
         ];
         try {
-            addDataToSlotsSQLite(
+            addDataToSlotsMYSQL(
                 uniqid(),
                 $cleanData["name"],
             );
@@ -25,7 +25,7 @@ class Slots extends Action
     }
     public function read(): array
     {
-        $data =  readFromSlotsSQLite();
+        $data =  readFromSlotsMYSQL();
         return $data;
     }
 
