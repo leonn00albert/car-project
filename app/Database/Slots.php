@@ -94,26 +94,16 @@ function updateSlotsJSON(array $slots): void
 
 function deleteSlotByID($id)
 {
+    $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE);
 
-    if (file_exists(SLOT_DB)) {
-        $json = file_get_contents(SLOT_DB);
-        $cars = json_decode($json, true);
-        print $id;
-        $index = null;
-        foreach ($cars as $key => $car) {
-            if ($car['id'] == $id) {
-                $index = $key;
-                break;
-            }
-        }
-
-        if ($index !== null) {
-            array_splice($cars, $index, 1);
-            file_put_contents(SLOT_DB, json_encode($cars));
-
-            return true;
-        }
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
     }
 
-    return false;
+    $sql = "DELETE FROM " . MYSQL_TABLE_SLOTS . " WHERE id=$id";
+    if ($conn->query($sql) === TRUE) {
+        return true;
+    }   
+    
+    $conn->close();
 }
