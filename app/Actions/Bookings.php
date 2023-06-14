@@ -22,7 +22,7 @@ class Bookings extends Action
                 "car" => trim(htmlspecialchars($_POST["car"])),
                 "email" => trim(htmlspecialchars($_POST["email"])),
             ];
-            addDataToBookingsJSON(
+            addDataToBookingsMYSQL(
                 uniqid(),
                 $cleanData["userId"],
                 $cleanData["name"],
@@ -59,7 +59,7 @@ class Bookings extends Action
     }
     public function read(): array
     {
-        $data = readFromBookingsJSON();
+        $data = readFromBookingsMYSQL();
         return $data;
     }
 

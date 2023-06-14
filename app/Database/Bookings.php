@@ -5,6 +5,64 @@ define(
     __DIR__ . "/" . "bookings_db.json"
 );
 
+function readFromBookingsMYSQL(): array
+{
+    $slots = [];
+    $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "SELECT id, name, userId, date, carId, car FROM " . MYSQL_TABLE_BOOKINGS;
+    $result = $conn->query($sql);
+
+    if ($result === false) {
+        echo "Error: " . $conn->error;
+    } else {
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while ($row = $result->fetch_assoc()) {
+                $slots[] = $row;
+            }
+        }
+    }
+
+    $conn->close();
+    return $slots;
+}
+function addDataToBookingsMYSQL(string $id, string $userId, string $name, $date, $carId, $car): void 
+{
+    $createTableQuery = "CREATE TABLE IF NOT EXISTS " . MYSQL_TABLE_BOOKINGS . " (
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        userId INT NOT NULL,
+        date TEXT NOT NULL,
+        carId VARCHAR(255) NOT NULL,
+        car VARCHAR(255) NOT NULL
+    )";
+
+    $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    if ($conn->query($createTableQuery) === true) {
+        $sql = "INSERT INTO " . MYSQL_TABLE_BOOKINGS . " (id, userId, name, date, carId, car) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iissss", $id, $userId, $name, json_encode($date), $carId, $car);
+
+        if ($stmt->execute()) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+    } else {
+        echo "Error creating table: " . $conn->error;
+    }
+
+    $conn->close();
+}
 function readFromBookingsJSON(): array
 {
     $bookings = [];
@@ -86,25 +144,16 @@ function updateBookingsJSON($id, $date)
 function deleteBookingById($id)
 {
 
-    if (file_exists(BOOKINGS_DB)) {
-        $json = file_get_contents(BOOKINGS_DB);
-        $bookings = json_decode($json, true);
-        print $id;
-        $index = null;
-        foreach ($bookings as $key => $booking) {
-            if ($booking['id'] == $id) {
-                $index = $key;
-                break;
-            }
-        }
+    $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE);
 
-        if ($index !== null) {
-            array_splice($bookings, $index, 1);
-            file_put_contents(BOOKINGS_DB, json_encode($bookings));
-
-            return true;
-        }
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
     }
 
-    return false;
+    $sql = "DELETE FROM " . MYSQL_TABLE_BOOKINGS . " WHERE id=$id";
+    if ($conn->query($sql) === TRUE) {
+        return true;
+    }   
+    
+    $conn->close();
 }

@@ -1,10 +1,11 @@
 <?php
-
+require  __DIR__ . "/Database/" . "db_config.php";
 require_once __DIR__ . "/Actions/Cars.php";
 require_once __DIR__ . "/Actions/Slots.php";
 require_once __DIR__ . "/Actions/Users.php";
 require_once __DIR__ . "/Actions/Bookings.php";
 require_once __DIR__ . "/Actions/Day.php";
+
 class Controller
 {
     private Action $Cars;
