@@ -1,0 +1,18 @@
+{
+    "date": "2023-06-14",
+    "id": "6489da83b5078",
+    "slots": [
+        {
+            "name": "morning",
+            "available": true
+        },
+        {
+            "name": "afternoon",
+            "available": false
+        },
+        {
+            "name": "evening",
+            "available": true
+        }
+    ]
+}

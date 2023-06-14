@@ -9,7 +9,7 @@ include "./views/header.php";
     <?php include "views/nav.php"; ?>
     <?php include "views/components/indexFeatured.php"; ?>
     <main class=" grid primary">
-      <h1 class="page-title">Oasdasdrs</h1>
+      <h1 class="page-title">Our Cars</h1>
       <div class="grid home-content">
         <?php
         $cars = $controller->Get("cars");
@@ -154,6 +154,7 @@ include "./views/header.php";
 
         window.location = "/?" + queryString;
       } else {
+        
         modal.style.display = "block";
       }
     }

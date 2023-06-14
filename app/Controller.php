@@ -36,10 +36,12 @@ class Controller
             return $booking["carId"] === $carId && $booking['date']['date'] === $date;
         });
 
+      
+      
         if (count($filteredBookings) > 0) {
             $mergedSlots = [];
             $firstBooking = reset($filteredBookings);
-
+            $firstBooking['date'] = json_decode($firstBooking['date'], true);
             foreach ($firstBooking['date']['slots'] as $slot) {
                 if ($slot['available']) {
                     $mergedSlots[$slot['name']] = true;
@@ -47,6 +49,8 @@ class Controller
             }
 
             foreach ($filteredBookings as $booking) {
+                            $booking['date'] = json_decode($booking['date'], true);
+
                 $slots = $booking['date']['slots'];
                 foreach ($slots as $slot) {
                     if ($slot['available'] && isset($mergedSlots[$slot['name']])) {
@@ -60,11 +64,11 @@ class Controller
             foreach (array_keys($mergedSlots) as $slot) {
                 $slots[] = ["name" => $slot];
             }
-
             return $slots;
         } else {
             $res = $this->Day->create($date);
             return $res["slots"];
+          
         }
     }
     function handlePost()

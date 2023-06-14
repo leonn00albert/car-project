@@ -15,7 +15,9 @@ function readFromBookingsMYSQL(): array
     }
 
     $sql = "SELECT id, name, userId, date, carId, car FROM " . MYSQL_TABLE_BOOKINGS;
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result === false) {
         echo "Error: " . $conn->error;
@@ -27,6 +29,7 @@ function readFromBookingsMYSQL(): array
             }
         }
     }
+    //$slots["dates"] = json_decode($slots["dates"],true); 
 
     $conn->close();
     return $slots;

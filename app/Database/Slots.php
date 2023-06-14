@@ -17,7 +17,9 @@ function readFromSlotsMYSQL(): array
       }
       
       $sql = "SELECT id, name FROM " . MYSQL_TABLE_SLOTS;
-      $result = $conn->query($sql);
+      $stmt = $conn->prepare($sql);
+      $stmt->execute();
+      $result = $stmt->get_result();
       
       if ($result->num_rows > 0) {
         // output data of each row
@@ -41,12 +43,16 @@ function addDataToSlotsMYSQL(string $id, string $name,): void
     }
 
     if ($conn->query($createTableQuery) === true) {
-        $sql = "INSERT INTO " . MYSQL_TABLE_SLOTS . " (name) VALUES ('$name')";
-        if ($conn->query($sql) === true) {
+        $sql = "INSERT INTO " . MYSQL_TABLE_SLOTS . " (name) VALUES (?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $name);
+    
+        if ($stmt->execute()) {
             echo "New record created successfully";
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error: " . $sql . "<br>" . $stmt->error;
         }
+        $stmt->close();
     } else {
         echo "Error creating table: " . $conn->error;
     }

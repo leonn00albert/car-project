@@ -28,7 +28,7 @@ if (isset($_SESSION["auth"]) && $_SESSION["auth"] == true) {
                     </tr>
                     <?php
                     $bookings = $controller->Get("userBookings", $userId);
-                    print_r($bookings);
+            
                     foreach ($bookings as $booking) {
                         $booking["date"] = json_decode($booking["date"],true);
                         echo "<tr>";
@@ -69,7 +69,7 @@ if (isset($_SESSION["auth"]) && $_SESSION["auth"] == true) {
                     <form method="POST" action="/app/Controller.php" id="myForm">
                         <input type="hidden" name="action" value="update" />
                         <input type="hidden" name="type" value="bookings" />
-                        <input type="hidden" name="carid" value="'.$booking["car_id"].'" />
+                        <input type="hidden" name="carid" value="'.$booking["carId"].'" />
                         <input type="hidden" name="bookingId" value="'.$booking["id"].'" />
                         <input onchange="getSlots()" type="date" id="calendar" name="date" value="' . $booking["date"]["date"] . '" required>';
 
