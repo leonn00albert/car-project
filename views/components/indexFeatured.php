@@ -11,8 +11,6 @@
                             echo '<button onclick="redirectToLogin()">Book Now</button>';
                         }
                         ?>
-
-
                     </div>
                 </div>
                 <div class="hero-image mySlides fade">

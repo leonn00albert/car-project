@@ -31,12 +31,12 @@ function readFromBookingsMYSQL(): array
     $conn->close();
     return $slots;
 }
-function addDataToBookingsMYSQL(string $id, string $userId, string $name, $date, $carId, $car): void 
+function addDataToBookingsMYSQL(string $userId, string $name, $date, $carId, $car): void 
 {
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . MYSQL_TABLE_BOOKINGS . " (
-        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
-        userId INT NOT NULL,
+        userId VARCHAR(255) NOT NULL,
         date TEXT NOT NULL,
         carId VARCHAR(255) NOT NULL,
         car VARCHAR(255) NOT NULL
@@ -48,10 +48,10 @@ function addDataToBookingsMYSQL(string $id, string $userId, string $name, $date,
     }
 
     if ($conn->query($createTableQuery) === true) {
-        $sql = "INSERT INTO " . MYSQL_TABLE_BOOKINGS . " (id, userId, name, date, carId, car) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO " . MYSQL_TABLE_BOOKINGS . " (name, userId, date, carId, car) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iissss", $id, $userId, $name, json_encode($date), $carId, $car);
-
+        $stmt->bind_param("sssss", $name, $userId, $date, $carId, $car);
+    
         if ($stmt->execute()) {
             echo "New record created successfully";
         } else {
@@ -74,6 +74,36 @@ function readFromBookingsJSON(): array
     return $bookings;
 }
 
+
+function readUserBookingsMYSQL($userId): array
+{
+    $slots = [];
+    $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $stmt = $conn->prepare("SELECT id, name, userId, date, carId, car FROM " . MYSQL_TABLE_BOOKINGS . " WHERE userId = ?");
+    $stmt->bind_param("s", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result === false) {
+        echo "Error: " . $conn->error;
+    } else {
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while ($row = $result->fetch_assoc()) {
+                $slots[] = $row;
+            }
+        }
+    }
+
+    $stmt->close();
+    $conn->close();
+    return $slots;
+}
 function readUserBookingsJSON($userId): array
 {
     $bookings = [];

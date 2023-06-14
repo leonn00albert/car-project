@@ -28,7 +28,9 @@ if (isset($_SESSION["auth"]) && $_SESSION["auth"] == true) {
                     </tr>
                     <?php
                     $bookings = $controller->Get("userBookings", $userId);
+                    print_r($bookings);
                     foreach ($bookings as $booking) {
+                        $booking["date"] = json_decode($booking["date"],true);
                         echo "<tr>";
                         echo "<td>{$booking["car"]}</td>";
                         echo "<td>{$booking["name"]}</td>";

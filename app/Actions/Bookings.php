@@ -23,10 +23,9 @@ class Bookings extends Action
                 "email" => trim(htmlspecialchars($_POST["email"])),
             ];
             addDataToBookingsMYSQL(
-                uniqid(),
                 $cleanData["userId"],
                 $cleanData["name"],
-                $day->create($cleanData["date"], $cleanData["time"]),
+                json_encode($day->create($cleanData["date"], $cleanData["time"])),
                 $cleanData["carId"],
                 $cleanData["car"]
             );
@@ -34,6 +33,7 @@ class Bookings extends Action
             header("Location: /");
             return true;
         } catch (Exception $e) {
+            print $e->getMessage();
             return false;
         }
     }
@@ -65,7 +65,7 @@ class Bookings extends Action
 
     public function readUserBookings($userId): array
     {
-        $data = readUserBookingsJSON($userId);
+        $data = readUserBookingsMYSQL($userId);
         return $data;
     }
 

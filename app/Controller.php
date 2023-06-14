@@ -32,7 +32,8 @@ class Controller
     function slots($date, $carId)
     {
         $filteredBookings = array_filter($this->Bookings->read(), function ($booking) use ($date, $carId) {
-            return $booking["car_id"] === $carId && $booking['date']['date'] === $date;
+            $booking['date'] = json_decode($booking['date'], true);
+            return $booking["carId"] === $carId && $booking['date']['date'] === $date;
         });
 
         if (count($filteredBookings) > 0) {
@@ -119,7 +120,7 @@ class Controller
             if ($_POST["type"] === "day") {
                 try {
                     match ($_POST['action']) {
-                        "create" => $this->Day->create(),
+                       
                     };
                 } catch (Error $e) {
                     print_r($e);
@@ -131,8 +132,8 @@ class Controller
     {
         try {
             $result =  match ($resource) {
-                "slot_options" => $this->Slots->Read(),
-                "cars" => $this->Cars->Read(),
+                "slot_options" => $this->Slots->read(),
+                "cars" => $this->Cars->read(),
                 "day" => $this->Day->create($date),
                 "bookings" => $this->Bookings->read(),
                 "userBookings" => $this->Bookings->readUserBookings($userId),
