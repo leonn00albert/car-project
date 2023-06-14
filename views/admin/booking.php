@@ -97,10 +97,12 @@ if (
                     $bookings = $controller->Get("bookings");
 
                     foreach ($bookings as $booking) :
+      
+                        $booking["date"] = json_decode($booking["date"],true);
                         echo <<<EOD
                         <tr>
                             <td>{$booking["id"]}</td>
-                            <td>{$booking["car_id"]}</td>
+                            <td>{$booking["carId"]}</td>
                             <td>{$booking["car"]}</td>
                             <td>{$booking["name"]}</td>
                             <td>{$booking["date"]["date"]}</td>

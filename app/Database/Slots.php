@@ -1,6 +1,6 @@
 <?php
 
-require  __DIR__ . "/" . "db_config.php";
+
 define(
     "SLOT_DB",
     __DIR__ . "/" . "slots_options_db.json"
