@@ -76,6 +76,8 @@ include "./views/header.php";
       </div>
     </main>
   </div>
+
+  
   <script>
     window.addEventListener("scroll", function() {
       console.log("scroll");
