@@ -7,18 +7,13 @@ class Cars extends Action
 {
     public function create(): bool
     {
-        //add form clean up here  for all inputs
-
         $cleanData = [
             "name" => trim(htmlspecialchars($_POST["name"])),
             "description" => trim(htmlspecialchars($_POST["description"])),
             "image" => trim(htmlspecialchars(filter_input(INPUT_POST, "image", FILTER_VALIDATE_URL))),
         ];
-
-
         try {
-            addDataToCarsJSON(
-                uniqid(),
+            addDataToCarsMYSQL(
                 $cleanData["name"],
                 $cleanData["description"],
                 $cleanData["image"]
@@ -44,7 +39,7 @@ class Cars extends Action
     }
     public function read(): array
     {
-        $data = readFromCarsJSON();
+        $data = readFromCarsMYSQL();
         return $data;
     }
 
