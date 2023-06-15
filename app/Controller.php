@@ -154,8 +154,9 @@ class Controller
     {
         try {
             $result = [];
-            foreach ($this->Cars->Read() as $car) {
-                if ($car["id"] === $id) {
+            foreach ($this->Cars->read() as $car) {
+             
+                if ($car["id"] == $id) {
                     $result = $car;
                 }
             }

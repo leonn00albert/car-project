@@ -32,7 +32,7 @@ class Cars extends Action
             "description" => trim(htmlspecialchars($_POST["description"])),
             "image" => trim(htmlspecialchars(filter_input(INPUT_POST, "image", FILTER_VALIDATE_URL))),
         ];
-        updateCarsJSON($_POST["id"], $cleanData);
+        updateCarsMYSQL($_POST["id"], $cleanData);
         header("location: /views/admin/carAdmin.php");
 
         return true;

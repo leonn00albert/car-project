@@ -67,6 +67,23 @@ function addDataToCarsMYSQL(string $name, string $description, string $image): v
 
     $conn->close();
 }
+
+function updateCarsMYSQL($id, array $arr): void {
+    $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    
+    $stmt = $conn->prepare("UPDATE " . MYSQL_TABLE_CARS . " SET name=?, description=?, image=? WHERE id=?");
+    $stmt->bind_param("sssi", $arr["name"], $arr["description"], $arr["image"], $id);
+
+    if ($stmt->execute() === false) {
+        echo "Cannot update data in the database: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $conn->close();
+}
 function addDataToCarsJSON(string $id, string $name,  $description,  $image): void //change to right  type later
 {
     $arr = json_decode(file_get_contents(Cars_DB), true);
@@ -90,6 +107,8 @@ function clearAndWriteCarsJSON(): void
         }
     }
 }
+
+
 
 function updateCarsJSON($id, array $arr): void {
 
