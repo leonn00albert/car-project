@@ -17,6 +17,7 @@ body {
 .grid {
   display: grid;
   gap: 20px;
+  margin-bottom: 10em;
 }
 .page-container {
   background: rgb(0, 0, 0);
