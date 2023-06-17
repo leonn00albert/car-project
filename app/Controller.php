@@ -25,7 +25,8 @@ class Controller
     function handleGet()
     {
 
-        if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["date"])) {
+        if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["dates"])) {
+            return $this->Bookings->read();
         }
     }
 

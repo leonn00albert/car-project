@@ -9,21 +9,20 @@ if (
 
     $car = $controller->getCar($_GET["id"]);
 ?>
-    <!doctype html>
-    <html lang="en">
-
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Bootstrap demo</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    </head>
-
-    <body>
-        <div class="container m-5">
-            <div class="row">
-                <div class="col">
-                    <form action="/app/Controller.php" method="POST">
+    <?php include "../../views/admin/header.php"; ?>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <?php include "../../views/admin/navbar.php"; ?>
+            <div class="col py-3 right-side-container">
+                <div class="container">
+                <div class="row">
+                        <div class="col">
+                        <div class="card m-3 card-shadow">  
+                        <div class="card-body">
+           
+                        <h2>Cars</h2>
+                            <h5>Update Cars</h5>
+                            <form action="/app/Controller.php" method="POST">
                         <input type="hidden" name="action" value="update" />
                         <input type="hidden" name="type" value="cars" />
                         <input type="hidden" name="id" value="<?= $car["id"] ?>" />
@@ -39,10 +38,13 @@ if (
                             <input name="image" type="url" id="image-input" class="form-control" onchange="showImagePreview()" value="<?= $car["image"] ?>">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-                <div class="col">
-                    <div class="card" style="width: 18rem;">
+                        </form>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col">
+                        <div class="card m-3 card-shadow">  
+                        <div class="card-body">
                         <img id="image-preview" src="<?= $car["image"] ?>" class="card-img-top">
                         <div class="card-body">
                             <h5 class="card-title" id="name-preview"><?= $car["name"] ?> </h5>
@@ -81,5 +83,5 @@ if (
     </html>
 
 <?php } else {
-    header("location: login.php");
+    header("location: /views/login.php");
 } ?>

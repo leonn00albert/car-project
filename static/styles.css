@@ -556,3 +556,13 @@ html {
 .login-container .card h2 {
   font-size: 2.5em;
 }
+
+
+.table a{
+  color :white;
+}
+
+.table button{
+  border-radius: 15px;
+}
+

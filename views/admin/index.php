@@ -1,70 +1,304 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-<div class="container">
-    <div class="row">
-        <div class="col-sm">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap"></use>
-                </svg>
-                <span class="fs-4">Admin</span>
-            </a>
-            <hr>
-            <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
-                    <a href="/views/admin/index.php" class="nav-link active" aria-current="page">
+<?php include "../../views/admin/header.php"; 
+require_once "../../app/Controller.php";
+session_start();
+$cars = $controller->Get("cars");
+$slots = $controller->Get("slot_options");
+$users = $controller->Get("users");
+$bookings = $controller->Get("bookings");
 
-                        Home
-                    </a>
-                </li>
-                <li>
-                    <a href="/views/admin/carAdmin.php" class="nav-link" aria-current="page">
+?>
 
-                        Cars
-                    </a>
-                </li>
-                <li>
-                    <a href="/views/admin/booking.php" class="nav-link" aria-current="page">
+<style>
 
-                        Bookings
-                    </a>
-                </li>
-                <li>
-                    <a href="/views/admin/slotAdmin.php" class="nav-link" aria-current="page">
-                        Slots
-                    </a>
-                </li>
-                <li>
-                    <a href="/views/admin/userAdmin.php" class="nav-link" aria-current="page">
+h1,
+h2,
+h3 {
+    font-weight: bold;
+}
 
-                        Users
-                    </a>
-                </li>
-                <li>
-                    <a href="/views/signout.php" class="nav-link" aria-current="page">
+.h1 {
+    font-size: 2.5rem;
+}
 
-                        Signout
-                    </a>
-                </li>
-            </ul>
-            <hr>
+#calendar {
+    width: 100%;
+    margin: 0 auto;
+}
 
-        </div>
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-        <div class="col-sm">
+th,
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+td {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ccc;
+}
+
+td:hover {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+.prev-month,
+.next-month {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.has {
+    background-color: red;
+}
+
+.today {
+    background-color: #8686ff;
+    color: white;
+}
+.today:hover {
+    background-color: #6b6bee;
+    color: white;   
+}
+
+.disable { 
+    background-color: rgb(198, 198, 198);
+
+}
+.disable:hover { 
+    background-color: rgb(198, 198, 198);
+    cursor: not-allowed ;
+
+}
+    </style>
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <?php include "../../views/admin/navbar.php"; ?>
+        <div class="col py-3 right-side-container">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm">
-                        Cars
+                    <div class="col">
+                        <div class="card text-white bg-info card-shadow" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Users</h5>
+                                <h1><?=count($users) ?></h1>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm">
-                        Bookings
+                    <div class="col">
+                        <div class="card text-white bg-warning card-shadow" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Cars</h5>
+
+                                <h1><?=count($cars) ?></h1>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm">
-                        Slots
+                    <div class="col">
+                        <div class="card text-white bg-primary card-shadow" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Slots</h5>
+
+                                <h1><?=count($slots) ?></h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card text-white bg-success card-shadow" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Bookings</h5>
+                        
+                                <h1><?=count($bookings) ?></h1>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="card m-5 card-shadow">
+                <div class="card-body">
+                        <div id="calendar"></div>
+                        </div>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
+
+<script>
+    var activeRoom = "Meeting Room";
+var parseDate = "";
+
+function handleRoomSelect(event) {
+    // Remove active class from all link items
+    var linkItems = document.querySelectorAll('.list-group-item');
+    linkItems.forEach(function (item) {
+        item.classList.remove('active');
+    });
+    activeRoom = event.target.innerHTML;
+    // Add active class to the clicked link item
+    var clickedElement = event.target;
+    clickedElement.classList.add('active');
+}
+function handleAdd() {
+    console.log(parseDate);
+    // Create an object with the data to send in the request body
+    let from  = document.getElementById("timeFrom").value;
+    let till = document.getElementById("timeTill").value;
+ 
+    fetch("/app/Controller.php?dates=" + parseDate + "&room=" + activeRoom + '&time='+ from + "-" +till  )
+        .then(function (response) {
+            if (response.ok) {
+                return response.json(); // If the response is JSON
+                // return response.text(); // If the response is plain text
+            } else {
+                throw new Error('Error: ' + response.status);
+            }
+        })
+        .then(function (data) {
+            console.log('Response:', data);
+            dates = data;
+            // Handle the response data
+        })
+        .catch(function (error) {
+            console.error('Error:', error);
+            // Handle any errors that occurred during the request
+        });
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendar = document.getElementById('calendar');
+
+        var date = new Date();
+        var currentMonth = date.getMonth();
+        var currentYear = date.getFullYear();
+ 
+  
+        showCalendar(currentMonth, currentYear);
+
+        function showCalendar(month, year) {
+            var firstDay = (new Date(year, month)).getDay();
+            var daysInMonth = 32 - new Date(year, month, 32).getDate();
+
+            var table = document.createElement('table');
+            var tr = document.createElement('tr');
+
+            // Previous month arrow
+            var prevMonth = document.createElement('th');
+
+            prevMonth.classList.add('prev-month');
+            prevMonth.innerHTML = '<';
+            prevMonth.addEventListener('click', function () {
+                if (month === 0) {
+                    month = 11;
+                    year -= 1;
+                } else {
+                    month -= 1;
+                }
+                showCalendar(month, year);
+            });
+            tr.appendChild(prevMonth);
+
+            var monthText = document.createElement('th');
+            monthText.setAttribute('colspan', '5');
+            monthText.innerHTML = year + ' ' + getMonthName(month);
+            tr.appendChild(monthText);
+
+            // Next month arrow
+            var nextMonth = document.createElement('th');
+            nextMonth.setAttribute('colspan', '7');
+            nextMonth.classList.add('next-month');
+            nextMonth.innerHTML = '>';
+            nextMonth.addEventListener('click', function () {
+                if (month === 11) {
+                    month = 0;
+                    year += 1;
+                } else {
+                    month += 1;
+                }
+                showCalendar(month, year);
+            });
+            tr.appendChild(nextMonth);
+
+            table.appendChild(tr);
+
+            // Days of the week headers
+            tr = document.createElement('tr');
+            var daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            for (var i = 0; i < 7; i++) {
+                var th = document.createElement('th');
+                th.innerHTML = daysOfWeek[i];
+                tr.appendChild(th);
+            }
+            table.appendChild(tr);
+
+            // Calendar days
+            var day = 1;
+            for (var i = 0; i < 6; i++) {
+                tr = document.createElement('tr');
+                for (var j = 0; j < 7; j++) {
+                    if (i === 0 && j < firstDay) {
+                        var td = document.createElement('td');
+                        td.classList.add('prev-month');
+                        tr.appendChild(td);
+                    } else if (day > daysInMonth) {
+                        var td = document.createElement('td');
+                        td.classList.add('next-month');
+                        tr.appendChild(td);
+                    } else {
+                        var td = document.createElement('td');
+                        let has = true;
+                        td.innerHTML = day;
+               
+                        if ((day < new Date().getDate() && month <= new Date().getMonth()) ||month < new Date().getMonth() ) {
+                            td.className = "disable";
+                        }else {
+                          
+                            td.addEventListener('click', function () {
+                                let dayElement = document.getElementById("modalDay");
+                                let monthElement = document.getElementById("modalMonth");
+                                let modalRoom = document.getElementById("modalRoom");
+                                monthElement.textContent = getMonthName(month);
+                                dayElement.textContent = this.innerHTML;
+                                modalRoom.textContent = activeRoom;
+                                parseDate = year + "-" + (month + 1) + "-" + this.innerHTML;
+                                
+                                const myModal = new bootstrap.Modal('#bookingModal', {
+                                    keyboard: false
+                                })
+    
+                                myModal.show();
+    
+                            });
+                        }
+                        if (day == new Date().getDate() && month == new Date().getMonth()) {
+                            td.className = "today";
+                        }
+                 
+                        tr.appendChild(td);
+                        day++;
+                    }
+                }
+                table.appendChild(tr);
+                if (day > daysInMonth) {
+                    break;
+                }
+            }
+
+            calendar.innerHTML = '';
+            calendar.appendChild(table);
+        }
+
+        function getMonthName(month) {
+            var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            return monthNames[month];
+        }
+    });
+</script>
