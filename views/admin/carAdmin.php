@@ -19,8 +19,8 @@ if (
                         <div class="col">
                             <div class="card m-3 card-shadow">
                                 <div class="card-body">
-                                    <h2>Slots</h2>
-                                    <h5>Create Slot</h5>
+                                    <h2>Cars</h2>
+                                    <h5>Create Car</h5>
                                     <?php include "../../views/admin/newCar.php"; ?>
                                 </div>
                             </div>

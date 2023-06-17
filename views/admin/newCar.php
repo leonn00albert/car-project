@@ -17,7 +17,7 @@ if (
                             <input onchange="showNamePreview()" type="text" id="name-input" name="name" class="form-control" placeholder="name">
                         </div>
                         <div class="mb-3 ">
-                            <textarea onchange="showDescPreview()" id="desc-input" name="description" class="form-control" placeholder="description">
+                        <textarea onchange="showDescPreview()" id="desc-input" name="description" class="form-control" placeholder="description">
                         </textarea>
                         </div>
                         <div class="mb-3 ">
