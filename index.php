@@ -23,7 +23,7 @@ include "./views/header.php";
           echo '<p>' . $car['description'] . '</p>';
 
           if (isset($_SESSION["auth"]) && $_SESSION["auth"] === true) {
-            echo '<button onclick="openModal(' . "'$name', '$id', '$img')" . '">Book Now</button>';
+            echo '<button onclick="setModal(' . "'$name', '$id', '$img')" . '">Book Now</button>';
           } else {
             echo '<button onclick="redirectToLogin()">Book Now</button>';
           }
@@ -122,13 +122,30 @@ include "./views/header.php";
       const carId = params.get("carId");
       const car = params.get("car");
       const img = params.get("img");
-      if (date) {
-        openModal(car, carId, img);
-        document.getElementById("calendar").value = date;
-      }
-    };
+      openModal(car, carId, img,date);
+    
+    }; 
+    function setModal(car, id, img,date=null) {
 
-    function openModal(car, id, img) {
+      const params = new URLSearchParams(window.location.search);
+      if(!date){
+        const today = new Date();
+        const month = String(today.getMonth() + 1).padStart(2, "0"); // January is 0
+        const day = String(today.getDate()).padStart(2, "0");
+        const year = today.getFullYear();
+        date = `${year}-${month}-${day}`;
+      }
+  
+        carId = id;
+        const queryString = new URLSearchParams({
+          date,
+          carId,
+          car,
+          img,
+        }).toString();
+        window.location = "/?" + queryString;
+    }
+    function openModal(car, id, img,date) {
       let carId = document.getElementById("carId");
       const carInput = document.getElementById("car");
       const span = document.getElementById("carName");
@@ -137,28 +154,9 @@ include "./views/header.php";
       carId.value = id;
       carInput.value = car;
       span.textContent = car;
-      const params = new URLSearchParams(window.location.search);
+      document.getElementById("calendar").value = date;
+      modal.style.display = "block";
 
-      if (!params.get("date")) {
-        const today = new Date();
-        const month = String(today.getMonth() + 1).padStart(2, "0"); // January is 0
-        const day = String(today.getDate()).padStart(2, "0");
-        const year = today.getFullYear();
-        const date = `${year}-${month}-${day}`;
-        carId = id;
-
-        const queryString = new URLSearchParams({
-          date,
-          carId,
-          car,
-          img,
-        }).toString();
-
-        window.location = "/?" + queryString;
-      } else {
-        
-        modal.style.display = "block";
-      }
     }
 
     function getSlots() {
