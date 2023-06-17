@@ -1,4 +1,6 @@
 <?php
+
+
 require  __DIR__ . "/Database/" . "db_config.php";
 require_once __DIR__ . "/Actions/Cars.php";
 require_once __DIR__ . "/Actions/Slots.php";

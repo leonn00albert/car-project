@@ -1,1 +1,11 @@
-[{"id":"648dd640351bf","user":"leon","email":"leon00albert@gmail.com","password":"$2y$10$reovsRb9.BnRPDJyf197JuiM0rSyF4OBf2ILhvwEgQyMM.nOS811u","type":"user"}]
+[
+
+    {
+        "id": "648dd640351dsdbf",
+        "user": "admin",
+        "email": "admin@test.com",
+        "password": "$2y$10$reovsRb9.BnRPDJyf197JuiM0rSyF4OBf2ILhvwEgQyMM.nOS811u",
+        "type": "admin"
+    }
+    
+]

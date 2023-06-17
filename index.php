@@ -122,7 +122,10 @@ include "./views/header.php";
       const carId = params.get("carId");
       const car = params.get("car");
       const img = params.get("img");
-      openModal(car, carId, img,date);
+      if(date){
+        openModal(car, carId, img,date);
+      }
+    
     
     }; 
     function setModal(car, id, img,date=null) {

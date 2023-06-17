@@ -1,10 +1,8 @@
 <?php
-
 require_once __DIR__ . '/Action.php';
 require_once __DIR__ . '/Email.php';
 require_once __DIR__ . '/Day.php';
 require_once __DIR__ . '/../Database/Bookings.php';
-
 class Bookings extends Action
 {
 
@@ -82,8 +80,14 @@ class Bookings extends Action
 
     // add later redirect to right location for admin
     {
+        session_start();
         if (isset($_POST["id"])) {
-            header("location: /views/user/userBookings.php");
+            if($_SESSION["type"] === "admin"){
+                header("location: /views/admin/booking.php");
+            }else{
+                header("location: /views/user/userBookings.php");
+            }
+         
             return deleteBookingById($_POST["id"]);
         }
         return false;
