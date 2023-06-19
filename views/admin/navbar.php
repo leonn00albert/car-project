@@ -20,6 +20,17 @@
 					Dashboard
 				</a>
 			</li>
+
+			<li class="nav-item">
+			<?php if (strpos($_SERVER['REQUEST_URI'], "metrics.php") !== false) : ?>
+					<a href="/views/admin/metrics.php" class="nav-link active " aria-current="page">
+					<?php else : ?>
+						<a href="/views/admin/metrics.php" class="nav-link " aria-current="page">
+						<?php endif; ?>
+					<i class="fa fa-bar-chart" aria-hidden="true"></i>
+					Metrics
+				</a>
+			</li>
 			<li>
 			<li>
 				<?php if (strpos($_SERVER['REQUEST_URI'], "carAdmin.php") !== false) : ?>
@@ -41,6 +52,17 @@
 						<?php endif; ?>
 						<i class="fa fa-calendar" aria-hidden="true"></i>
 						Bookings
+						</a>
+			</li>
+			<li>
+			<li>
+				<?php if (strpos($_SERVER['REQUEST_URI'], "reviewAdmin.php") !== false) : ?>
+					<a href="/views/admin/reviewAdmin.php" class="nav-link active" aria-current="page">
+					<?php else : ?>
+						<a href="/views/admin/reviewAdmin.php" class="nav-link" aria-current="page">
+						<?php endif; ?>
+						<i class="fa fa-star" aria-hidden="true"></i>
+						Reviews
 						</a>
 			</li>
 			<li>

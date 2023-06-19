@@ -53,7 +53,10 @@ if (isset($_SESSION["auth"]) && $_SESSION["auth"] == true) {
                      </td>
                     <td>
                     <a  class=\"reschedule-button\" type=\"button\" href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#{$booking["id"]}model\"  >Reschedule</a>
-                </td>";
+                    </td>
+                    <td>
+                    <a  class=\"reschedule-button\" href=\"reviews.php?carId={$booking["carId"]}&car={$booking["car"]}\" >Review</a>
+                    </td>";
 
                         echo "</tr>";
                         echo '<div id="' . $booking["id"] . 'model' . '" class="modal">
@@ -73,7 +76,7 @@ if (isset($_SESSION["auth"]) && $_SESSION["auth"] == true) {
                         <input type="hidden" name="bookingId" value="'.$booking["id"].'" />
                         <input onchange="getSlots()" type="date" id="calendar" name="date" value="' . $booking["date"]["date"] . '" required>';
 
-                        $slots = $controller->slots($booking["date"]["date"], $booking["car_id"]);
+                        $slots = $controller->slots($booking["date"]["date"], $booking["carId"]);
                         if (!isset($slots[0]["name"])) {
                             echo '<p class="not-available">No Slots Available For This Day</p>';
                         } else {

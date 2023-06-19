@@ -5,6 +5,7 @@ require  __DIR__ . "/Database/" . "db_config.php";
 require_once __DIR__ . "/Actions/Cars.php";
 require_once __DIR__ . "/Actions/Slots.php";
 require_once __DIR__ . "/Actions/Users.php";
+require_once __DIR__ . "/Actions/Reviews.php";
 require_once __DIR__ . "/Actions/Bookings.php";
 require_once __DIR__ . "/Actions/Day.php";
 
@@ -12,17 +13,19 @@ class Controller
 {
     private Action $Cars;
     private Action $Slots;
+    private Action $Reviews;
     private Bookings $Bookings;
     private Day  $Day;
     private Users  $Users;
 
-    public function __construct(Action $Cars, Action $Slots, Bookings $Bookings, Day  $Day, $Users)
+    public function __construct(Action $Cars, Action $Slots, Bookings $Bookings, Day  $Day, $Users,Action $Reviews)
     {
         $this->Cars = $Cars;
         $this->Slots = $Slots;
         $this->Day = $Day;
         $this->Bookings = $Bookings;
         $this->Users = $Users;
+        $this->Reviews = $Reviews;
     }
     function handleGet()
     {
@@ -124,6 +127,18 @@ class Controller
                     print_r($e);
                 }
             }
+
+            if ($_POST["type"] === "reviews") {
+                try {
+                    match ($_POST['action']) {
+                        "create" => $this->Reviews->create(),
+                        "update" => $this->Reviews->update(),
+                        "delete" => $this->Reviews->delete(),
+                    };
+                } catch (Error $e) {
+                    print_r($e);
+                }
+            }
             if ($_POST["type"] === "day") {
                 try {
                     match ($_POST['action']) {
@@ -143,9 +158,11 @@ class Controller
                 "cars" => $this->Cars->read(),
                 "day" => $this->Day->create($date),
                 "bookings" => $this->Bookings->read(),
+                "reviews" => $this->Reviews->read(),
                 "userBookings" => $this->Bookings->readUserBookings($userId),
                 "users" => $this->Users->read(),
                 "bookings/available" => $this->Bookings->available($id, $date),
+                "bookings/cars/metrics" => $this->Bookings->getMostPopularCars(),
                 default => throw new Exception("Invalid resource: $resource"),
             };
             return $result;
@@ -169,9 +186,11 @@ class Controller
             echo 'Message: ' . $e->getMessage();
         }
     }
+
+
 }
 // handle Form Data POST request
 
-$controller = new Controller($Cars, $Slots, $Bookings, $Day, $Users);
+$controller = new Controller($Cars, $Slots, $Bookings, $Day, $Users, $Reviews);
 $controller->handlePost();
 $controller->handleGet();
