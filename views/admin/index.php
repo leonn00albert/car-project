@@ -80,7 +80,13 @@ $bookings = $controller->Get("bookings");
         cursor: not-allowed;
 
     }
+
+    #map {
+        height: 400px;
+        width: 100%;
+    }
 </style>
+<link rel = "stylesheet" href = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <div class="container-fluid">
     <div class="row flex-nowrap">
         <?php include "../../views/admin/navbar.php"; ?>
@@ -131,7 +137,7 @@ $bookings = $controller->Get("bookings");
 
                 <div class="card m-5 card-shadow">
                     <div class="card-body">
-                    <div id="googleMap" style="width:100%;height:400px;"></div>
+                        <div id="map"></div>
                     </div>
                 </div>
             </div>
@@ -139,15 +145,33 @@ $bookings = $controller->Get("bookings");
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
 <script>
+    var map = L.map('map').setView([51.505, -0.09], 13);
 
-function myMap() {
-var mapProp= {
-  center:new google.maps.LatLng(51.508742,-0.120850),
-  zoom:5,
-};
-var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-}
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+        maxZoom: 4,
+    }).addTo(map);
+
+<?php foreach($cars as $car): ?>
+    L.marker(["<?= $car["latitude"]?>" ,"<?= $car["longitude"]?>" ], { icon: 
+        L.icon({
+    iconUrl: "<?= $car["image"]?>",
+    iconSize: [32, 32], // adjust the size of the icon
+    iconAnchor: [16, 32], // adjust the position of the icon
+})}).addTo(map)
+    .bindPopup("<?= $car["name"]?>")
+   
+
+
+
+<?php endforeach; ?>
+
+
+
+
+
 
     var activeRoom = "Meeting Room";
     var parseDate = "";

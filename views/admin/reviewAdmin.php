@@ -33,10 +33,24 @@ if (
                 </tr>
                 <?php
                 $users = $controller->Get("reviews");
-                foreach ($users as $user) :
-                    echo <<<EOD
-                        <tr>
-                            <td>{$user["rating"]}</td>
+                foreach ($users as $user) :?>
+                    <tr>
+                        <td>
+                        <?php if (isset($user["rating"])): ?>
+                            <div class=" lead">
+                                <div id="stars" class="starrr"></div>
+                                <?php 
+                                    for($i =0; $i <  $user["rating"]; $i++){
+                                        echo "<span class=\"fa fa-star checked\"></span>";
+                                    }
+                                ?>  
+
+                        </td>
+    
+                <?php endif; 
+
+                echo <<<EOD
+                         
                                <td>{$user["userId"]}</td>
                             <td>{$user["carId"]}</td>
            

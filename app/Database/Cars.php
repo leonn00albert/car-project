@@ -11,7 +11,7 @@ function readFromCarsMYSQL(): array
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "SELECT id, name, description, image  FROM " . MYSQL_TABLE_CARS;
+    $sql = "SELECT *  FROM " . MYSQL_TABLE_CARS;
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $result = $stmt->get_result();

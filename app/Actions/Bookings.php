@@ -75,12 +75,25 @@ class Bookings extends Action
         return $filteredCars;
     }
 
-
+    public function getMostPopularCars(){
+        $metrics = [];
+        $bookings = $this->read();
+        
+        foreach($bookings as $booking){
+            if (isset($metrics[$booking["car"]])) {
+                $metrics[$booking["car"]] += 1;
+            } else {
+                $metrics[$booking["car"]] = 1;
+            }
+        }
+        
+        return $metrics;
+    }
     public function delete(): bool
 
     // add later redirect to right location for admin
     {
-        session_start();
+        session_start();    
         if (isset($_POST["id"])) {
             if($_SESSION["type"] === "admin"){
                 header("location: /views/admin/booking.php");

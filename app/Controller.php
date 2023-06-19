@@ -162,6 +162,7 @@ class Controller
                 "userBookings" => $this->Bookings->readUserBookings($userId),
                 "users" => $this->Users->read(),
                 "bookings/available" => $this->Bookings->available($id, $date),
+                "bookings/cars/metrics" => $this->Bookings->getMostPopularCars(),
                 default => throw new Exception("Invalid resource: $resource"),
             };
             return $result;
@@ -186,14 +187,7 @@ class Controller
         }
     }
 
-    function getReviews($id): array
-    {
-        try {
-            return $this->Cars->readReviews($id);
-        } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage();
-        }
-    }
+
 }
 // handle Form Data POST request
 
