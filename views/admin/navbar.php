@@ -44,6 +44,17 @@
 						</a>
 			</li>
 			<li>
+			<li>
+				<?php if (strpos($_SERVER['REQUEST_URI'], "reviewAdmin.php") !== false) : ?>
+					<a href="/views/admin/reviewAdmin.php" class="nav-link active" aria-current="page">
+					<?php else : ?>
+						<a href="/views/admin/reviewAdmin.php" class="nav-link" aria-current="page">
+						<?php endif; ?>
+						<i class="fa fa-star" aria-hidden="true"></i>
+						Reviews
+						</a>
+			</li>
+			<li>
 			<?php if (strpos($_SERVER['REQUEST_URI'], "slotAdmin.php") !== false) : ?>
 				<a href="/views/admin/slotAdmin.php" class="nav-link active" aria-current="page">
 					<?php else : ?>

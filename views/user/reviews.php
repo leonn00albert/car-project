@@ -70,10 +70,11 @@ justify-content: center;
             <p>
             <div class="container">
                 <h2> Review your experience for <span id="carName"><?=$_GET["car"]?></span></h2>
-                <form>
+                <form action="/app/Controller.php" method="POST">
                 <input type="hidden" name="action" value="create">
             <input type="hidden" name="type" value="reviews">
-            <input type="hidden" name="product_id" >  
+            <input type="hidden" name="carId" value=<?=$_GET["carId"]?> >
+            <input type="hidden" name="userId" value=<?=$_SESSION["userId"]?>  >  
                 <div class="form-group" style="width: 600px; margin: 0 auto;">
               
                     <div class="rate">

@@ -20,7 +20,19 @@ include "./views/header.php";
           echo '<article class="post">';
           echo '<img src="' . $car['image'] . '" alt="' . $car['name'] . '">';
           echo '<h2>' . $car['name'] . '</h2>';
-          echo '<p>' . $car['description'] . '</p>';
+ 
+          ?>
+          <?php if (isset($car["average_rating"])): ?>
+            <div class="row lead">
+                <div id="stars" class="starrr"></div>
+                <?php 
+                    for($i =0; $i <  $car["average_rating"]; $i++){
+                        echo "<span class=\"fa fa-star checked\"></span>";
+                    }
+                ?>
+<?php endif; ?>
+          <?php 
+         echo '<p>' . $car['description'] . '</p>';  
 
           if (isset($_SESSION["auth"]) && $_SESSION["auth"] === true) {
             echo '<button onclick="setModal(' . "'$name', '$id', '$img')" . '">Book Now</button>';

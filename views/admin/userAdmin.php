@@ -15,10 +15,6 @@ if (
             <?php include "../../views/admin/navbar.php"; ?>
             <div class="col py-3 right-side-container">
                 <div class="container">
-                
-
-            
-
                     <div class="card m-3 card-shadow">
                         <div class="card-body">
                         <h2>Users</h2>

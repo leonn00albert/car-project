@@ -13,6 +13,8 @@
 
 .right-side-container{ 
     background-color: #eaeaea;
+    height: 100vh;
+    overflow: scroll;
 }
 
 .nav-link {
