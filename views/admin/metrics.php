@@ -99,6 +99,15 @@ new Chart("myChart3", {
       data: y
     }]
   },
+  options: {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
+}
  
 });
         </script>
