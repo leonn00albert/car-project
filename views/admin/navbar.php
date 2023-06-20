@@ -31,6 +31,17 @@
 					Metrics
 				</a>
 			</li>
+
+			<li class="nav-item">
+			<?php if (strpos($_SERVER['REQUEST_URI'], "locations.php") !== false) : ?>
+					<a href="/views/admin/locations.php" class="nav-link active " aria-current="page">
+					<?php else : ?>
+						<a href="/views/admin/locations.php" class="nav-link " aria-current="page">
+						<?php endif; ?>
+					<i class="fa  fa-map-marker" aria-hidden="true"></i>
+					Locations
+				</a>
+			</li>
 			<li>
 			<li>
 				<?php if (strpos($_SERVER['REQUEST_URI'], "carAdmin.php") !== false) : ?>

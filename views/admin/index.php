@@ -9,84 +9,8 @@ $bookings = $controller->Get("bookings");
 ?>
 
 <style>
-    h1,
-    h2,
-    h3 {
-        font-weight: bold;
-    }
 
-    .h1 {
-        font-size: 2.5rem;
-    }
-
-    #calendar {
-        width: 100%;
-        margin: 0 auto;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th,
-    td {
-        padding: 10px;
-        text-align: center;
-    }
-
-    th {
-        background-color: #f2f2f2;
-    }
-
-    td {
-        width: 100px;
-        height: 100px;
-        border: 1px solid #ccc;
-    }
-
-    td:hover {
-        background-color: #f2f2f2;
-        cursor: pointer;
-    }
-
-    .prev-month,
-    .next-month {
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-    .has {
-        background-color: red;
-    }
-
-    .today {
-        background-color: #8686ff;
-        color: white;
-    }
-
-    .today:hover {
-        background-color: #6b6bee;
-        color: white;
-    }
-
-    .disable {
-        background-color: rgb(198, 198, 198);
-
-    }
-
-    .disable:hover {
-        background-color: rgb(198, 198, 198);
-        cursor: not-allowed;
-
-    }
-
-    #map {
-        height: 400px;
-        width: 100%;
-    }
 </style>
-<link rel = "stylesheet" href = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <div class="container-fluid">
     <div class="row flex-nowrap">
         <?php include "../../views/admin/navbar.php"; ?>
@@ -154,24 +78,17 @@ $bookings = $controller->Get("bookings");
         maxZoom: 4,
     }).addTo(map);
 
-<?php foreach($cars as $car): ?>
-    L.marker(["<?= $car["latitude"]?>" ,"<?= $car["longitude"]?>" ], { icon: 
-        L.icon({
-    iconUrl: "<?= $car["image"]?>",
-    iconSize: [32, 32], // adjust the size of the icon
-    iconAnchor: [16, 32], // adjust the position of the icon
-})}).addTo(map)
-    .bindPopup("<?= $car["name"]?>")
-   
+    <?php foreach ($cars as $car) : ?>
+        L.marker(["<?= $car["latitude"] ?>", "<?= $car["longitude"] ?>"], {
+                icon: L.icon({
+                    iconUrl: "<?= $car["image"] ?>",
+                    iconSize: [32, 32], // adjust the size of the icon
+                    iconAnchor: [16, 32], // adjust the position of the icon
+                })
+            }).addTo(map)
+            .bindPopup("<?= $car["name"] ?>")
 
-
-
-<?php endforeach; ?>
-
-
-
-
-
+    <?php endforeach; ?>
 
     var activeRoom = "Meeting Room";
     var parseDate = "";
@@ -188,31 +105,7 @@ $bookings = $controller->Get("bookings");
         clickedElement.classList.add('active');
     }
 
-    function handleAdd() {
-        console.log(parseDate);
-        // Create an object with the data to send in the request body
-        let from = document.getElementById("timeFrom").value;
-        let till = document.getElementById("timeTill").value;
 
-        fetch("/app/Controller.php?dates=" + parseDate + "&room=" + activeRoom + '&time=' + from + "-" + till)
-            .then(function(response) {
-                if (response.ok) {
-                    return response.json(); // If the response is JSON
-                    // return response.text(); // If the response is plain text
-                } else {
-                    throw new Error('Error: ' + response.status);
-                }
-            })
-            .then(function(data) {
-                console.log('Response:', data);
-                dates = data;
-                // Handle the response data
-            })
-            .catch(function(error) {
-                console.error('Error:', error);
-                // Handle any errors that occurred during the request
-            });
-    }
     document.addEventListener('DOMContentLoaded', function() {
         var calendar = document.getElementById('calendar');
 
@@ -300,23 +193,23 @@ $bookings = $controller->Get("bookings");
                         if ((day < new Date().getDate() && month <= new Date().getMonth()) || month < new Date().getMonth()) {
                             td.className = "disable";
                         } else {
+                            let realMonth = month + 1;
+                            let date = year + "-" + realMonth.toString().padStart(2, '0') + "-" + day.toString().padStart(2, '0');
+                            let pElement = document.createElement("p");
 
-                            td.addEventListener('click', function() {
-                                let dayElement = document.getElementById("modalDay");
-                                let monthElement = document.getElementById("modalMonth");
-                                let modalRoom = document.getElementById("modalRoom");
-                                monthElement.textContent = getMonthName(month);
-                                dayElement.textContent = this.innerHTML;
-                                modalRoom.textContent = activeRoom;
-                                parseDate = year + "-" + (month + 1) + "-" + this.innerHTML;
+                            <?php foreach($bookings as $booking): 
+                                $date = json_decode($booking['date'],true);
+                                ?>
+                            if(date == "<?=$date['date']?>"){
+                                pElement = document.createElement("p");
+                                pElement.className = "calendar-car-item";
+                                pElement.innerHTML = "<a href=\"/views/admin/booking.php\"><?=$booking['car']?></a>";
+                                td.appendChild(pElement);
+                            }
 
-                                const myModal = new bootstrap.Modal('#bookingModal', {
-                                    keyboard: false
-                                })
+                     
 
-                                myModal.show();
-
-                            });
+                            <?php endforeach;?>
                         }
                         if (day == new Date().getDate() && month == new Date().getMonth()) {
                             td.className = "today";
@@ -342,4 +235,3 @@ $bookings = $controller->Get("bookings");
         }
     });
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSZpT8fIMzLCxM0AFnhDk7zTGPEI-vynI&callback=myMap"></script>
