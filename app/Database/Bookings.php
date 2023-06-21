@@ -107,41 +107,9 @@ function readUserBookingsMYSQL($userId): array
     $conn->close();
     return $slots;
 }
-function readUserBookingsJSON($userId): array
-{
-    $bookings = [];
-
-    if (file_exists(BOOKINGS_DB)) {
-        $json = file_get_contents(BOOKINGS_DB);
-        $allBookings = json_decode($json, true);
-
-        $bookings = array_filter($allBookings, function ($booking) use ($userId) {
-            return $booking['userId'] === $userId;
-        });
-    }
-
-    return $bookings;
-}
 
 
-function addDataToBookingsJSON(string $id, string $userId, string $name,  $date, $carId, $car): void //change to right  type later
-{
 
-    $bookings = json_decode(file_get_contents(BOOKINGS_DB), true);
-    $bookings[] = ["id" => $id, "userId" => $userId, "name" => $name, "date" => $date, "car_id" => $carId, "car" => $car];
-    if (!file_put_contents(BOOKINGS_DB, json_encode($bookings))) {
-        echo "Cannot write to the file!";
-    }
-}
-
-function clearAndWriteBookingsJSON(): void
-{
-    if (is_writable(BOOKINGS_DB)) {
-        if (!file_put_contents(BOOKINGS_DB, json_encode([]))) {
-            echo "Cannot write to the file!";
-        }
-    }
-}
 
 function updateBookingsJSON($id, $date)
 {

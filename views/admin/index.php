@@ -5,6 +5,10 @@ $cars = $controller->Get("cars");
 $slots = $controller->Get("slot_options");
 $users = $controller->Get("users");
 $bookings = $controller->Get("bookings");
+if (
+    (isset($_SESSION["auth"]) && $_SESSION["auth"] == true)  &&
+    (isset($_SESSION["type"]) && $_SESSION["type"] === "admin")
+) {
 
 ?>
 
@@ -82,8 +86,8 @@ $bookings = $controller->Get("bookings");
         L.marker(["<?= $car["latitude"] ?>", "<?= $car["longitude"] ?>"], {
                 icon: L.icon({
                     iconUrl: "<?= $car["image"] ?>",
-                    iconSize: [32, 32], // adjust the size of the icon
-                    iconAnchor: [16, 32], // adjust the position of the icon
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32], 
                 })
             }).addTo(map)
             .bindPopup("<?= $car["name"] ?>")
@@ -94,13 +98,11 @@ $bookings = $controller->Get("bookings");
     var parseDate = "";
 
     function handleRoomSelect(event) {
-        // Remove active class from all link items
         var linkItems = document.querySelectorAll('.list-group-item');
         linkItems.forEach(function(item) {
             item.classList.remove('active');
         });
         activeRoom = event.target.innerHTML;
-        // Add active class to the clicked link item
         var clickedElement = event.target;
         clickedElement.classList.add('active');
     }
@@ -122,8 +124,6 @@ $bookings = $controller->Get("bookings");
 
             var table = document.createElement('table');
             var tr = document.createElement('tr');
-
-            // Previous month arrow
             var prevMonth = document.createElement('th');
 
             prevMonth.classList.add('prev-month');
@@ -144,7 +144,7 @@ $bookings = $controller->Get("bookings");
             monthText.innerHTML = year + ' ' + getMonthName(month);
             tr.appendChild(monthText);
 
-            // Next month arrow
+   
             var nextMonth = document.createElement('th');
             nextMonth.setAttribute('colspan', '7');
             nextMonth.classList.add('next-month');
@@ -162,7 +162,6 @@ $bookings = $controller->Get("bookings");
 
             table.appendChild(tr);
 
-            // Days of the week headers
             tr = document.createElement('tr');
             var daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             for (var i = 0; i < 7; i++) {
@@ -171,8 +170,6 @@ $bookings = $controller->Get("bookings");
                 tr.appendChild(th);
             }
             table.appendChild(tr);
-
-            // Calendar days
             var day = 1;
             for (var i = 0; i < 6; i++) {
                 tr = document.createElement('tr');
@@ -207,8 +204,6 @@ $bookings = $controller->Get("bookings");
                                 td.appendChild(pElement);
                             }
 
-                     
-
                             <?php endforeach;?>
                         }
                         if (day == new Date().getDate() && month == new Date().getMonth()) {
@@ -235,3 +230,10 @@ $bookings = $controller->Get("bookings");
         }
     });
 </script>
+
+<?php include "footer.php";?>
+
+<?php } else {
+    header("location: /views/login.php");
+} ?>
+        
