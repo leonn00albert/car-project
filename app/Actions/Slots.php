@@ -18,6 +18,9 @@ class Slots extends Action
                 $cleanData["name"],
             );
             header("location: /views/admin/slotAdmin.php");
+            session_start();
+            $_SESSION["alert"]["type"] = "success";
+            $_SESSION["alert"]["message"] = "Created slot";
             return true;
         } catch (Exception $e) {
             return false;
@@ -30,12 +33,23 @@ class Slots extends Action
     }
 
     public function delete(): bool
-    {
-        if (isset($_POST["id"])) {
+    { 
+        session_start(); 
+        try {
+            if (isset($_POST["id"])) {
             header("location: /views/admin/slotAdmin.php");
+            session_start();    
+            $_SESSION["alert"]["type"] = "success";
+            $_SESSION["alert"]["message"] = "Deleted slot";
+          
             return deleteSlotById($_POST["id"]);
         }
-        return false;
+    }
+        catch(Exception $e) {
+            $_SESSION["alert"]["type"] = "error";
+            $_SESSION["alert"]["message"] = "Something went wrong: " . $e->getMessage();
+            return false;
+        }
     }
 }
 

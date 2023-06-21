@@ -7,6 +7,7 @@ class Cars extends Action
 {
     public function create(): bool
     {
+        session_start();
         $cleanData = [
             "name" => trim(htmlspecialchars($_POST["name"])),
             "description" => trim(htmlspecialchars($_POST["description"])),
@@ -19,9 +20,13 @@ class Cars extends Action
                 $cleanData["image"]
             );
             header("location: /views/admin/carAdmin.php");
+            session_start();
+            $_SESSION["alert"]["type"] = "success";
+            $_SESSION["alert"]["message"] = "Created a new car";
             return true;
         } catch (Exception $e) {
-            print $e->getMessage();
+            $_SESSION["alert"]["type"] = "error";
+            $_SESSION["alert"]["message"] = "Something went wrong: " . $e->getMessage();
             return false;
         }
     }
@@ -34,7 +39,9 @@ class Cars extends Action
         ];
         updateCarsMYSQL($_POST["id"], $cleanData);
         header("location: /views/admin/carAdmin.php");
-
+        session_start();
+        $_SESSION["alert"]["type"] = "success";
+        $_SESSION["alert"]["message"] = "Updated car";
         return true;
     }
     public function read(): array
@@ -80,12 +87,25 @@ class Cars extends Action
 
 
     public function delete(): bool
-    {
-        if (isset($_POST["id"])) {
-            header("location: /views/admin/carAdmin.php");
-            return deleteCarByID($_POST["id"]);
-        }
+    {   session_start();
+        
+        try {
+            if (isset($_POST["id"])) {
+                header("location: /views/admin/carAdmin.php");
+             
+                $_SESSION["alert"]["type"] = "success";
+                $_SESSION["alert"]["message"] = "Deleted car";
+                return deleteCarByID($_POST["id"]);
+                
+            }
+     
+    } catch(Exception $e) {
+        $_SESSION["alert"]["type"] = "error";
+        $_SESSION["alert"]["message"] = "Something went wrong: " . $e->getMessage();
         return false;
+    }
+
+    
     }
 }
 $Cars = new Cars();

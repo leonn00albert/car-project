@@ -19,6 +19,7 @@ if (
                         <div class="col">
                             <div class="card m-3 card-shadow">
                                 <div class="card-body">
+                                    <?php include "../../views/admin/alerts.php"; ?>
                                     <h2>Cars</h2>
                                     <h5>Create Car</h5>
                                     <?php include "../../views/admin/newCar.php"; ?>
@@ -46,6 +47,9 @@ if (
                                             <th>
 
                                             </th>
+                                            <th>
+
+                                            </th>
                                         </tr>
                                         <?php
                                         $cars = $controller->Get("cars");
@@ -60,17 +64,18 @@ if (
                                                         <input type="hidden" name="type" value="cars" />
                                                         <input type="hidden" name="action" value="delete" />
                                                         <input type="hidden" name="id" value="<?= $car["id"] ?>" />
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <button type="submit" class="btn btn-danger">
-                                                                    Delete</button>
-                                                            </div>
 
-                                                            <div class="col">
-                                                                <a class="btn btn-info" href="carEdit.php?id=<?= $car["id"] ?>">Update</a>
-                                                            </div>
-                                                        </div>
+                                                        <button type="submit" class="btn btn-danger">
+                                                            Delete</button>
+
+
+
+
                                                     </form>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-info" href="carEdit.php?id=<?= $car["id"] ?>">Update</a>
+
                                                 </td>
                                             </tr>
 

@@ -23,6 +23,7 @@ class Reviews extends Action
             header("location: /");
             return true;
         } catch (Exception $e) {
+            print $e->getMessage();
             return false;
         }
     }
