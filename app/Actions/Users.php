@@ -85,6 +85,7 @@ class Users extends Action
         }
         if ($result !== null && isset($result["password"]) && password_verify($password, $result["password"])) {
             if (password_verify($password, $result["password"])) {
+                updateLastLogin($result["id"]);
                 $_SESSION["auth"] = true;
                 $_SESSION["userId"] = $result["id"];
                 $_SESSION["userName"] = $result["user"];

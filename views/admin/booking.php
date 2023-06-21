@@ -14,6 +14,8 @@ if (
                 <div class="container">
                     <div class="card m-3 card-shadow">
                         <div class="card-body">
+
+                        <?php include "../../views/admin/alerts.php"; ?>
                             <h2>Bookings</h2>
                             <table class="table">
                                 <tr>

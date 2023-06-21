@@ -8,7 +8,6 @@ require_once __DIR__ . "/Actions/Users.php";
 require_once __DIR__ . "/Actions/Reviews.php";
 require_once __DIR__ . "/Actions/Bookings.php";
 require_once __DIR__ . "/Actions/Day.php";
-
 class Controller
 {
     private Action $Cars;

@@ -29,6 +29,12 @@ if (
                                         type
                                     </th>
                                     <th>
+                                        Created 
+                                    </th>
+                                    <th>
+                                        Last Login
+                                    </th>
+                                    <th>
                                     </th>
                                 </tr>
                                 <?php
@@ -39,6 +45,8 @@ if (
                                         <td><?=$user["email"]?></td>
                                         <td><?=$user["user"]?></td>
                                         <td><?=$user["type"]?></td>
+                                        <td><?=$user["created_at"]?></td>
+                                        <td><?=$user["last_login"]?></td>
                                     </tr>
                                 <?php endforeach;?>
                             </table>

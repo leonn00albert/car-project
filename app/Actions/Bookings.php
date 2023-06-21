@@ -100,7 +100,9 @@ class Bookings extends Action
             }else{
                 header("location: /views/user/userBookings.php");
             }
-         
+            session_start();   
+            $_SESSION["alert"]["type"] = "success";
+            $_SESSION["alert"]["message"] = "Deleted Booking";
             return deleteBookingById($_POST["id"]);
         }
         return false;

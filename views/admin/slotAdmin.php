@@ -18,8 +18,10 @@ if (
                         <div class="col">
                             <div class="card m-3 card-shadow">
                                 <div class="card-body">
+                                <?php include "../../views/admin/alerts.php"; ?>
 
                                     <h2>Slots</h2>
+                                    
                                     <form method="POST" action="/app/Controller.php" style="width: 30%; margin: 0 auto;">
                                         <h5>Create Slot</h5>
 
