@@ -19,7 +19,7 @@ class Users extends Action
             ];
 
             $unqiue  = true;
-            $users = readFromUsersJSON();
+            $users = readFromUsersTable();
 
             if (!$this->isEmail($cleanData["email"])) {
                 throw new Exception("Invalid email address.");
@@ -44,7 +44,7 @@ class Users extends Action
             }
             if ($unqiue) {
                 $id = uniqid();
-                addDataToUsersJSON(
+                addDataToUsersTable(
                     $id,
                     $cleanData["user"],
                     $cleanData["email"],
@@ -68,7 +68,7 @@ class Users extends Action
     }
     public function read(): array
     {
-        return readFromUsersJSON();
+        return readFromUsersTable();
     }
     public function login()
     {
@@ -76,7 +76,7 @@ class Users extends Action
         // sanitize the input to filter tags or special characters
         $email = trim(htmlspecialchars($_POST["email"]));  // is depecrated use htmlspecialchars instead
         $password = trim(htmlspecialchars($_POST["password"]));
-        $users = readFromUsersJSON();
+        $users = readFromUsersTable();
         $result = [];
         foreach ($users as $existingUser) {
             if ($existingUser["email"] === $email) {

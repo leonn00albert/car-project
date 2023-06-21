@@ -1,11 +1,1 @@
-[
-
-    {
-        "id": "648dd640351dsdbf",
-        "user": "admin",
-        "email": "admin@test.com",
-        "password": "$2y$10$reovsRb9.BnRPDJyf197JuiM0rSyF4OBf2ILhvwEgQyMM.nOS811u",
-        "type": "admin"
-    }
-    
-]
+[{"id":"648dd640351dsdbf","user":"admin","email":"admin@test.com","password":"$2y$10$reovsRb9.BnRPDJyf197JuiM0rSyF4OBf2ILhvwEgQyMM.nOS811u","type":"admin"},{"id":"6492efc707b5f","user":"dema","email":"izered3@gmail.com","password":"$2y$10$eGqmQawL0JYFVd4m2dlcMePwd001G5LV8VydXolQTqhzt2Fo.ru.q","type":"user"}]
