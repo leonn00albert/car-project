@@ -50,49 +50,41 @@ if (
                                         <?php
                                         $cars = $controller->Get("cars");
                                         foreach ($cars as $car) :
-                                            echo <<<EOD
-                  <tr>
-                  <td><img class="table-avatar" src={$car["image"]} /></td>
-                    <td>{$car["id"]}</td>
-                    <td>{$car["name"]}</td>
-           
-             EOD;
-
-                                            echo "<td>
-            <form action=\"/app/Controller.php\" method=\"POST\">
-            <input type=\"hidden\" name=\"type\" value=\"cars\" />
-            <input type=\"hidden\" name=\"action\" value=\"delete\" />
-                    <input type=\"hidden\" name=\"id\" value=\"{$car["id"]}\" />
-                    <div class=\"row\"> 
-                    <div class=\"col\"> 
-   <button type=\"submit\" class=\"btn btn-danger\">      
-            Delete</button>
-            </div>
-                  </form>
-                  <div class=\"col\"> 
-            <a  class=\"btn btn-info\" href=\"carEdit.php?id={$car["id"]}\">Update</a></td>
-            </div>
-            </div> ";
-                                            echo "</tr>";
-                                        // add modal for delete and update
-                                        endforeach;
                                         ?>
-                                    </table>
+                                            <tr>
+                                                <td><img class="table-avatar" src=<?= $car["image"] ?> /></td>
+                                                <td><?= $car["id"] ?></td>
+                                                <td><?= $car["name"] ?></td>
+                                                <td>
+                                                    <form action="/app/Controller.php" method="POST">
+                                                        <input type="hidden" name="type" value="cars" />
+                                                        <input type="hidden" name="action" value="delete" />
+                                                        <input type="hidden" name="id" value="<?= $car["id"] ?>" />
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <button type="submit" class="btn btn-danger">
+                                                                    Delete</button>
+                                                            </div>
+                                                    </form>
+                                                    <div class="col">
+                                                        <a class="btn btn-info" href="carEdit.php?id=<?= $car["id"] ?>">Update</a>
+                                                </td>
                                 </div>
                             </div>
+                            </tr>
 
+                        <?php endforeach; ?>
 
+                        </table>
                         </div>
                     </div>
-
-
-
                 </div>
-
             </div>
         </div>
     </div>
-
+    </div>
+    </div>
+    <?php include "footer.php"; ?>
 
 <?php } else {
     header("location: /views/login.php");

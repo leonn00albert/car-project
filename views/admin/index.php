@@ -235,3 +235,5 @@ $bookings = $controller->Get("bookings");
         }
     });
 </script>
+
+<?php include "footer.php";?>

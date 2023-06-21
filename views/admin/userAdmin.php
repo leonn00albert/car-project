@@ -66,7 +66,7 @@ if (
         </div>
     </div>
 
-
+    <?php include "footer.php";?>
 <?php } else {
     header("location: /views/login.php");
 } ?>

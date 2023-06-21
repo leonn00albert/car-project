@@ -54,8 +54,9 @@ if (
 
     <?php endforeach; ?>
 </script>
-
+<?php include "footer.php";?>
 <?php } else {
     header("location: /views/login.php");
 } ?>
         
+

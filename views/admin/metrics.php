@@ -111,7 +111,7 @@ new Chart("myChart3", {
  
 });
         </script>
-
+<?php include "footer.php";?>
     <?php } else {
         header("location: /views/login.php");
     } ?>

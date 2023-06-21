@@ -8,7 +8,6 @@ if (
 
 
 ?>
-
     <?php include "../../views/admin/header.php"; ?>
     <div class="container-fluid">
         <div class="row flex-nowrap">
@@ -89,7 +88,7 @@ if (
             </div>
         </div>
     </div>
-
+    <?php include "footer.php";?>
 
 <?php } else {
     header("location: /views/login.php");
