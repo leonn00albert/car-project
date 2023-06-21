@@ -65,24 +65,25 @@ if (
                                                                 <button type="submit" class="btn btn-danger">
                                                                     Delete</button>
                                                             </div>
+
+                                                            <div class="col">
+                                                                <a class="btn btn-info" href="carEdit.php?id=<?= $car["id"] ?>">Update</a>
+                                                            </div>
+                                                        </div>
                                                     </form>
-                                                    <div class="col">
-                                                        <a class="btn btn-info" href="carEdit.php?id=<?= $car["id"] ?>">Update</a>
                                                 </td>
+                                            </tr>
+
+                                        <?php endforeach; ?>
+
+                                    </table>
                                 </div>
                             </div>
-                            </tr>
-
-                        <?php endforeach; ?>
-
-                        </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
     </div>
     <?php include "footer.php"; ?>
 

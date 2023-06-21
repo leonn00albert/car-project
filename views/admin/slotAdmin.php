@@ -21,15 +21,15 @@ if (
 
                                     <h2>Slots</h2>
                                     <form method="POST" action="/app/Controller.php" style="width: 30%; margin: 0 auto;">
-                                    <h5>Create Slot</h5>
+                                        <h5>Create Slot</h5>
 
                                         <input type="hidden" name="action" value="create" />
                                         <input type="hidden" name="type" value="slot" />
                                         <div class="mb-3">
                                             <input type="text" name="name" placeholder="time" class="form-control" id="exampleCheck1">
-                                       
+
                                         </div>
-                                 
+
 
                                         <input class="btn btn-primary" type="submit" value="submit" />
                                     </form>
@@ -44,38 +44,31 @@ if (
                                             <th>
                                                 ID
                                             </th>
-
                                             <th>
                                                 Name
                                             </th>
                                             <th>
-
                                             </th>
                                             <?php
                                             $slots = $controller->Get("slot_options");
                                             foreach ($slots as $slot) :
-                                                echo <<<EOD
-                  <tr>
-                    <td>{$slot["id"]}</td>
-                    <td>{$slot["name"]}</td>
-          
-             EOD;
-
-                                                echo "<td>
-            <form action=\"/app/Controller.php\" method=\"POST\">
-            <input type=\"hidden\" name=\"type\" value=\"slot\" />
-            <input type=\"hidden\" name=\"action\" value=\"delete\" />
-                    <input type=\"hidden\" name=\"id\" value=\"{$slot["id"]}\" />
-                    <div class=\"m-2\"> 
-   <button type=\"submit\" class=\"btn btn-danger\">      
-            Delete</button>
-                  </form>
-                  </div>
-                ";
-                                                echo "</tr>";
-                                            // add modal for delete and update
-                                            endforeach;
                                             ?>
+                                        <tr>
+                                            <td><?= $slot["id"] ?></td>
+                                            <td><?= $slot["name"] ?></td>
+                                            <td>
+                                                <form action="/app/Controller.php" method="POST">
+                                                    <input type="hidden" name="type" value="slot" />
+                                                    <input type="hidden" name="action" value="delete" />
+                                                    <input type="hidden" name="id" value="<?= $slot["id"] ?>" />
+                                                    <div class="m-2">
+                                                        <button type="submit" class="btn btn-danger">
+                                                            Delete</button>
+                                                    </div>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                     </table>
                                 </div>
                             </div>
@@ -88,7 +81,7 @@ if (
             </div>
         </div>
     </div>
-    <?php include "footer.php";?>
+    <?php include "footer.php"; ?>
 
 <?php } else {
     header("location: /views/login.php");

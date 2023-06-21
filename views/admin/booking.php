@@ -65,10 +65,9 @@ if (
                                                 <input type="hidden" name="action" value="delete" />
                                                 <input type="hidden" name="id" value="<?= $booking["id"] ?>" />
                                                 <button type="submit" class="btn btn-danger">
-
                                                     Delete</button>
                                             </form>
-
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
 
