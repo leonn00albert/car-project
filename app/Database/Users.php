@@ -81,6 +81,19 @@ function readFromUsersTable(): array
     return $users;
 }
 
+
+function updateLastLogin($id)
+{
+    global $mysqli;
+    $query = "UPDATE users
+                SET last_login = CURRENT_TIMESTAMP
+                WHERE id = ?";
+                
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->close();
+}
 function addDataToUsersTable(string $id, string $user, $email, $password, $type): void
 {
     global $mysqli;
