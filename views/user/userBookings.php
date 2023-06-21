@@ -27,74 +27,83 @@ if (isset($_SESSION["auth"]) && $_SESSION["auth"] == true) {
                         <th></th>
                     </tr>
                     <?php
+
                     $bookings = $controller->Get("userBookings", $userId);
-            
+
                     foreach ($bookings as $booking) {
-                        $booking["date"] = json_decode($booking["date"],true);
-                        echo "<tr>";
-                        echo "<td>{$booking["car"]}</td>";
-                        echo "<td>{$booking["name"]}</td>";
-                        echo "<td>{$booking["date"]["date"]}</td>";
-                        $res = "";
-                        echo "<td>";
-                        foreach ($booking["date"]["slots"] as $slot) {
-                            if ($slot["available"] === false) {
-                                echo $slot["name"];
-                            }
-                        }
-                        echo "</td>";
-                        echo "<td>
-                    <form action=\"/app/Controller.php\" method=\"POST\">
-                        <input type=\"hidden\" name=\"type\" value=\"bookings\" />
-                        <input type=\"hidden\" name=\"action\" value=\"delete\" />
-                        <input type=\"hidden\" name=\"id\" value=\"{$booking["id"]}\" />
-                        <button type=\"submit\">Cancel</button>
-                    </form>
-                     </td>
-                    <td>
-                    <a  class=\"reschedule-button\" type=\"button\" href=\"#\" data-bs-toggle=\"modal\" data-bs-target=\"#{$booking["id"]}model\"  >Reschedule</a>
-                    </td>
-                    <td>
-                    <a  class=\"reschedule-button\" href=\"reviews.php?carId={$booking["carId"]}&car={$booking["car"]}\" >Review</a>
-                    </td>";
+                        $booking["date"] = json_decode($booking["date"], true);
+                    ?>
 
-                        echo "</tr>";
-                        echo '<div id="' . $booking["id"] . 'model' . '" class="modal">
-            <div class="modal-dialog modal-lg">
-                <p>
-                <div class="container modal-content">
-                    
-                    <div class="modal-header">
-                        <h3 class="text-white">Reschedule the booking for <span id="carName">' . $booking["car"] . '</span></h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    
-                    <form method="POST" action="/app/Controller.php" id="myForm">
-                        <input type="hidden" name="action" value="update" />
-                        <input type="hidden" name="type" value="bookings" />
-                        <input type="hidden" name="carid" value="'.$booking["carId"].'" />
-                        <input type="hidden" name="bookingId" value="'.$booking["id"].'" />
-                        <input onchange="getSlots()" type="date" id="calendar" name="date" value="' . $booking["date"]["date"] . '" required>';
+                        <tr>
+                            <td><?php echo $booking["car"]; ?></td>
+                            <td><?php echo $booking["name"]; ?></td>
+                            <td><?php echo $booking["date"]["date"]; ?></td>
+                            <td>
+                                <?php
+                                foreach ($booking["date"]["slots"] as $slot) {
+                                    if ($slot["available"] === false) {
+                                        echo $slot["name"];
+                                    }
+                                }
+                                ?>
+                            </td>
+                            <td>
+                                <form action="/app/Controller.php" method="POST">
+                                    <input type="hidden" name="type" value="bookings" />
+                                    <input type="hidden" name="action" value="delete" />
+                                    <input type="hidden" name="id" value="<?php echo $booking["id"]; ?>" />
+                                    <button type="submit">Cancel</button>
+                                </form>
+                            </td>
+                            <td>
+                                <a class="reschedule-button" type="button" href="#" data-bs-toggle="modal" data-bs-target="#<?php echo $booking["id"]; ?>model">Reschedule</a>
+                            </td>
+                            <td>
+                                <a class="reschedule-button" href="reviews.php?carId=<?php echo $booking["carId"]; ?>&car=<?php echo $booking["car"]; ?>">Review</a>
+                            </td>
+                        </tr>
 
-                        $slots = $controller->slots($booking["date"]["date"], $booking["carId"]);
-                        if (!isset($slots[0]["name"])) {
-                            echo '<p class="not-available">No Slots Available For This Day</p>';
-                        } else {
-                            echo '<select name="time">';
-                            foreach ($slots as $slot) {
-                                echo '<option>' . $slot["name"] . '</option>';
-                            }
-                            echo '</select>';
-                            echo '<button style="width: 150px" type="submit" class="mt-4">Reschedule</button>';
-                        }
+                        <div id="<?php echo $booking["id"]; ?>model" class="modal">
+                            <div class="modal-dialog modal-lg">
+                                <p>
+                                <div class="container modal-content">
 
-                        echo '</form>
-                </div>
-                </p>
-            </div>
-        </div>';
+                                    <div class="modal-header">
+                                        <h3 class="text-white">Reschedule the booking for <span id="carName"><?php echo $booking["car"]; ?></span></h3>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    <form method="POST" action="/app/Controller.php" id="myForm">
+                                        <input type="hidden" name="action" value="update" />
+                                        <input type="hidden" name="type" value="bookings" />
+                                        <input type="hidden" name="carid" value="<?php echo $booking["carId"]; ?>" />
+                                        <input type="hidden" name="bookingId" value="<?php echo $booking["id"]; ?>" />
+                                        <input onchange="getSlots()" type="date" id="calendar" name="date" value="<?php echo $booking["date"]["date"]; ?>" required>
+
+                                        <?php
+                                        $slots = $controller->slots($booking["date"]["date"], $booking["carId"]);
+                                        if (!isset($slots[0]["name"])) {
+                                            echo '<p class="not-available">No Slots Available For This Day</p>';
+                                        } else {
+                                            echo '<select name="time">';
+                                            foreach ($slots as $slot) {
+                                                echo '<option>' . $slot["name"] . '</option>';
+                                            }
+                                            echo '</select>';
+                                            echo '<button style="width: 150px" type="submit" class="mt-4">Reschedule</button>';
+                                        }
+                                        ?>
+
+                                    </form>
+                                </div>
+                                </p>
+                            </div>
+                        </div>
+
+                    <?php
                     }
                     ?>
+
                 </table>
             </div>
         </div>
