@@ -76,8 +76,34 @@ function readFromBookingsJSON(): array
 
     return $bookings;
 }
+function readFromBookingsByIdMYSQL($id) {
+    $slots = [];
+    $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE);
 
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
+    $stmt = $conn->prepare("SELECT * FROM " . MYSQL_TABLE_BOOKINGS . " WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result === false) {
+        echo "Error: " . $conn->error;
+    } else {
+        if ($result->num_rows > 0) {
+            // Retrieve data of each row
+            while ($row = $result->fetch_assoc()) {
+                $slots[] = $row;
+            }
+        }
+    }
+
+    $stmt->close();
+    $conn->close();
+    return $slots;
+}
 function readUserBookingsMYSQL($userId): array
 {
     $slots = [];

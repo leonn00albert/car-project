@@ -67,6 +67,12 @@ class Bookings extends Action
         return $data;
     }
 
+    public function getBookingById($id): array
+    {
+        $data = readFromBookingsByIdMYSQL($id);
+        return $data;
+    }
+
     public function available($id, $date): array
     {
         $filteredCars = array_filter(readFromBookingsJSON(), function ($car) use ($id, $date) {
