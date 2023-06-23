@@ -7,3 +7,30 @@ INSERT INTO cars (id, name, description, image) VALUES
     ('6', 'Buick Centurion', 'The 1956 Buick Centurion had a back-up camera decades before they appeared in consumer vehicles.', 'https://media.wired.com/photos/59325c2e5c4fbd732b5520bb/master/w_1600,c_limit/1956-Buick-Centurion-front-3q.jpg'),
     ('7', 'Cadillac Cyclone', 'The 1959 Cadillac Cyclone could drive itself using a sensor that guided it along a wire embedded in the road.', 'https://media.wired.com/photos/59325c2f5c4fbd732b5520bd/master/w_1600,c_limit/1959-Cadillac-Cyclone-front-3-4crop-.jpg'),
     ('8', 'Voisin C-25 Aerodyne', 'The 1934 Voisin C-25 Aerodyne was a French saloon than ran on a 3.0-liter inline-6 engine that produced just over 100 horsepower.', 'https://media.wired.com/photos/59325c2d9be5e55af6c24630/master/w_1600,c_limit/1934-Voisin-C-25-Aerodyne-f3q-restored.jpg');
+    ALTER TABLE cars
+ADD COLUMN longitude DECIMAL(9,6),
+ADD COLUMN latitude DECIMAL(8,6);
+
+UPDATE cars
+SET longitude = CASE
+    WHEN id = '1' THEN 13.404954  -- Coordinates of Berlin, Germany
+    WHEN id = '2' THEN 12.496365  -- Coordinates of Munich, Germany
+    WHEN id = '3' THEN 2.352222   -- Coordinates of Paris, France
+    WHEN id = '4' THEN 4.351710   -- Coordinates of Brussels, Belgium
+    WHEN id = '5' THEN -0.127758  -- Coordinates of London, United Kingdom
+    WHEN id = '6' THEN 41.902784  -- Coordinates of Barcelona, Spain
+    WHEN id = '7' THEN 41.008237  -- Coordinates of Madrid, Spain
+    WHEN id = '8' THEN 48.856613  -- Coordinates of Paris, France
+    ELSE NULL
+    END,
+    latitude = CASE
+    WHEN id = '1' THEN 52.520008  -- Coordinates of Berlin, Germany
+    WHEN id = '2' THEN 48.137154  -- Coordinates of Munich, Germany
+    WHEN id = '3' THEN 48.856614  -- Coordinates of Paris, France
+    WHEN id = '4' THEN 50.850340  -- Coordinates of Brussels, Belgium
+    WHEN id = '5' THEN 51.507351  -- Coordinates of London, United Kingdom
+    WHEN id = '6' THEN 2.348600   -- Coordinates of Barcelona, Spain
+    WHEN id = '7' THEN -4.355150  -- Coordinates of Madrid, Spain
+    WHEN id = '8' THEN 2.352222   -- Coordinates of Paris, France
+    ELSE NULL
+    END;
