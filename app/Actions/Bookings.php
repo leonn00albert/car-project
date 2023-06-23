@@ -27,8 +27,8 @@ class Bookings extends Action
                 $cleanData["carId"],
                 $cleanData["car"]
             );
-            sendEmail($cleanData["email"], $cleanData["name"]);
-            header("Location: /");
+            //sendEmail($cleanData["email"], $cleanData["name"]);  not working at the moment
+            header("Location: /views/user/userBookings.php");
             return true;
         } catch (Exception $e) {
             print $e->getMessage();
@@ -61,6 +61,7 @@ class Bookings extends Action
         return $data;
     }
 
+    
     public function readUserBookings($userId): array
     {
         $data = readUserBookingsMYSQL($userId);
@@ -94,6 +95,12 @@ class Bookings extends Action
         }
         
         return $metrics;
+    }
+
+    function updateBookingStatus():bool
+    {
+       header("location: /views/admin/booking.php");
+       return updateBookingStatusToClosed($_POST["id"]);
     }
     public function delete(): bool
 

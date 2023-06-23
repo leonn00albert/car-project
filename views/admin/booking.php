@@ -38,6 +38,10 @@ if (
                                     <th>
                                         Slot
                                     </th>
+                                  
+                                    <th>
+                                        Status
+                                    </th>
                                     <th>
                                     </th>
                                 </tr>
@@ -61,13 +65,14 @@ if (
                                             }
                                             ?>
                                         </td>
+                                        <td><?= $booking["status"] ?></td>
                                         <td>
                                             <form action="/app/Controller.php" method="POST">
                                                 <input type="hidden" name="type" value="bookings" />
-                                                <input type="hidden" name="action" value="delete" />
+                                                <input type="hidden" name="action" value="updateStatus" />
                                                 <input type="hidden" name="id" value="<?= $booking["id"] ?>" />
                                                 <button type="submit" class="btn btn-danger">
-                                                    Delete</button>
+                                                    Cancel</button>
                                             </form>
                                         </td>
                                     </tr>

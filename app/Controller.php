@@ -97,6 +97,7 @@ class Controller
                         "create" => $this->Bookings->create(),
                         "update" => $this->Bookings->update(),
                         "delete" => $this->Bookings->delete(),
+                        "updateStatus" => $this->Bookings->updateBookingStatus(),
                     };
                 } catch (Exception $e) {
                     echo 'Message: ' . $e->getMessage();
@@ -198,7 +199,6 @@ class Controller
 
 
 }
-// handle Form Data POST request
 
 $controller = new Controller($Cars, $Slots, $Bookings, $Day, $Users, $Reviews);
 $controller->handlePost();

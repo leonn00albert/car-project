@@ -68,7 +68,7 @@ if (isset($_SESSION["auth"]) && $_SESSION["auth"] == true) {
                                 <p>
                                 <div class="container modal-content">
 
-                                    <div class="modal-header">
+                                    <div class="modal-header" style="background-color: transparent;">
                                         <h3 class="text-white">Reschedule the booking for <span id="carName"><?php echo $booking["car"]; ?></span></h3>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>

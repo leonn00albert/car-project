@@ -14,7 +14,7 @@ function readFromBookingsMYSQL(): array
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT id, name, userId, date, carId, car FROM " . MYSQL_TABLE_BOOKINGS;
+    $sql = "SELECT id, name, userId, date, carId, car, status FROM " . MYSQL_TABLE_BOOKINGS;
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -182,5 +182,22 @@ function deleteBookingById($id)
         return true;
     }   
     
+    $conn->close();
+}
+
+
+function updateBookingStatusToClosed($id)
+{
+    $conn = new mysqli(MYSQL_SERVER, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "UPDATE " . MYSQL_TABLE_BOOKINGS . " SET status='closed' WHERE id=$id";
+    if ($conn->query($sql) === TRUE) {
+        return true;
+    }   
+
     $conn->close();
 }
