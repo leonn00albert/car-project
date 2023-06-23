@@ -200,7 +200,7 @@ if (
                             if(date == "<?=$date['date']?>"){
                                 pElement = document.createElement("p");
                                 pElement.className = "calendar-car-item";
-                                pElement.innerHTML = "<a href=\"/views/admin/booking.php\"><?=$booking['car']?></a>";
+                                pElement.innerHTML = "<a href=\"/views/admin/booking-show.php?id=<?=$booking['id']?>\"><?=$booking['car']?></a>";
                                 td.appendChild(pElement);
                             }
 

@@ -186,6 +186,16 @@ class Controller
         }
     }
 
+    function getBookingById($id): array
+    {
+        try {
+            return $this->Bookings->getBookingById($id);
+
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage();
+        }
+    }
+
 
 }
 // handle Form Data POST request
